@@ -71,8 +71,8 @@ const showcases: ShowcaseBlock[] = [
       "Espera a que el mundo cargue (techos adaptativos Normal / Rápido).",
       "Abre el selector de wire, elige el canal y confirma Switch Lane.",
     ],
-    image: "/screens/nav-divine.png",
-    imageAlt: "Título de mapa en la UI de navegación",
+    image: "/screens/nav-map-list.png",
+    imageAlt: "Ventana de mapa abierta con lista de zonas a la izquierda",
   },
   {
     id: "app",
