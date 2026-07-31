@@ -22,6 +22,13 @@ export const metadata: Metadata = {
   },
   description:
     "Bot de visión para MU Immortal en emulador: farm, farm bosses, elf buff giver y war. Mira qué hace hoy, pantalla por pantalla.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   openGraph: {
     title: "MUAmaizingBot",
     description:
