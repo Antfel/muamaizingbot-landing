@@ -5,7 +5,7 @@ Sitio público de **https://www.muamaizingbot.com**.
 ## Objetivo (fase 1)
 
 Mostrar qué hace el bot con capturas reales y textos didácticos.
-Descarga de APK / licencia: más adelante.
+Descarga del APK en `/descargar` (redirige al último release de `Antfel/muamaizingbot-releases`). Para publicar una versión: `scripts/publish_apk_release.sh <versión>` en el repo del bot; no hace falta redeploy.
 
 ## Desarrollo
 

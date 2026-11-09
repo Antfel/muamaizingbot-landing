@@ -17,11 +17,11 @@ const body = Sora({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.muamaizingbot.com"),
   title: {
-    default: "MUAmaizingBot — Bot para MU Immortal",
+    default: "MUAmaizingBot — Bot para MU en Android",
     template: "%s · MUAmaizingBot",
   },
   description:
-    "Bot de visión para MU Immortal en emulador: farm, farm bosses, elf buff giver y war. Mira qué hace hoy, pantalla por pantalla.",
+    "Bot para MU en Android y BlueStacks: farmea, caza bosses, reparte buffs de elfa y se recupera solo. Sin root. Descarga la última versión.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "MUAmaizingBot",
     description:
-      "Automatización visual para MU Immortal. Explora los modos del bot con capturas reales.",
+      "Tu personaje sigue avanzando, aunque no estés jugando. Farm, bosses y buffs automáticos para MU.",
     url: "https://www.muamaizingbot.com",
     siteName: "MUAmaizingBot",
     locale: "es_ES",
