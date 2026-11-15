@@ -172,6 +172,25 @@ function DownloadButton({ size, className = "" }: { size?: number | null; classN
   );
 }
 
+/** Free trial: license-admin redirects to the Telegram bot (`?start=trial`), which sends the key. */
+const TRIAL_URL = "https://license.muamaizingbot.com/trial";
+
+function TrialButton({ className = "" }: { className?: string }) {
+  return (
+    <a
+      href={TRIAL_URL}
+      target="_blank"
+      rel="noopener"
+      className={`group inline-flex items-center gap-3 border border-emerald/70 px-6 py-3.5 font-[family-name:var(--font-display)] text-sm font-semibold tracking-wide text-emerald transition hover:bg-emerald hover:text-ink ${className}`}
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5" aria-hidden>
+        <path d="M20 12v8H4v-8M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7Zm0 0h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7Z" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      Probar gratis 3 días
+    </a>
+  );
+}
+
 export default async function HomePage() {
   const release = await getLatestRelease();
 
@@ -221,6 +240,7 @@ export default async function HomePage() {
           </p>
           <div className="animate-rise-delay-2 mt-9 flex flex-wrap items-center gap-4">
             <DownloadButton size={release?.sizeMb.arm64} />
+            <TrialButton />
             <a
               href="#que-hace"
               className="inline-flex items-center border border-[var(--line)] px-6 py-3.5 font-[family-name:var(--font-display)] text-sm tracking-wide text-fog transition hover:border-brass hover:text-brass"
@@ -332,6 +352,13 @@ export default async function HomePage() {
               <a href="/descargar/32" className="text-sm text-mist underline decoration-[var(--line)] underline-offset-4 transition hover:text-brass">
                 ¿Teléfono antiguo? Descarga la versión de 32 bits{release?.sizeMb.arm32 ? ` (${release.sizeMb.arm32} MB)` : ""}
               </a>
+            </div>
+            <div className="mt-8 border-t border-[var(--line)] pt-6">
+              <p className="text-sm text-mist">¿Quieres probarlo antes?</p>
+              <p className="mt-1 max-w-lg text-sm text-mist/80">
+                Pide tu key de prueba en Telegram: 3 días, una por persona y por personaje. Para activarla entra al juego con la VPN del bot encendida.
+              </p>
+              <TrialButton className="mt-3" />
             </div>
             <div className="mt-8 border-t border-[var(--line)] pt-6">
               <p className="text-sm text-mist">¿Aún no tienes licencia o tienes dudas?</p>
