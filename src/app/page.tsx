@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { ModeTabs, type Mode } from "@/components/ModeTabs";
+import { Pricing } from "@/components/Pricing";
 import { Reveal } from "@/components/Reveal";
 import { WhatsAppFloat, WhatsAppLink } from "@/components/WhatsAppButton";
 import { getLatestRelease } from "@/lib/release";
@@ -140,7 +141,7 @@ const faqs = [
   },
   {
     q: "¿Necesito una licencia?",
-    a: "Sí. La app pide una clave al iniciar. Cada licencia admite un número de dispositivos a la vez. Pídela por WhatsApp con el botón verde.",
+    a: "Sí. La app pide una clave al iniciar. Cada licencia admite un número de sesiones a la vez según tu plan (desde 5 USDT al mes, ver Precios). Pídela por WhatsApp con el botón verde.",
   },
   {
     q: "¿Cómo actualizo?",
@@ -204,6 +205,7 @@ export default async function HomePage() {
           <nav className="flex items-center gap-5 text-xs tracking-wide text-mist">
             <a href="#que-hace" className="hidden transition hover:text-brass sm:inline">Qué hace</a>
             <a href="#modos" className="hidden transition hover:text-brass sm:inline">Modos</a>
+            <a href="#precios" className="transition hover:text-brass">Precios</a>
             <a href="/manual" className="transition hover:text-brass">Manual</a>
             <a href="#preguntas" className="hidden transition hover:text-brass md:inline">Preguntas</a>
             <a href="#descargar" className="border border-brass/70 px-3 py-1.5 text-brass transition hover:bg-brass hover:text-ink">
@@ -332,6 +334,42 @@ export default async function HomePage() {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="precios" className="scroll-mt-20 border-t border-[var(--line)] px-5 py-20 md:px-10 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <Reveal>
+            <Kicker>Precios</Kicker>
+            <h2 className="mt-3 max-w-2xl font-[family-name:var(--font-display)] text-3xl font-semibold text-white md:text-4xl">
+              Más cuentas, menos por sesión
+            </h2>
+            <p className="mt-4 max-w-2xl text-mist md:text-lg">
+              Cada sesión es un dispositivo o emulador con el bot corriendo. Precio base: 5 USDT por sesión al mes, y baja mientras más sesiones tengas.
+            </p>
+          </Reveal>
+          <Reveal delay={100} className="mt-10">
+            <Pricing />
+          </Reveal>
+          <Reveal delay={160}>
+            <div className="mt-10 grid gap-6 border-t border-[var(--line)] pt-8 md:grid-cols-3">
+              <div>
+                <h3 className="font-[family-name:var(--font-display)] text-lg font-semibold text-white">Pago por Binance</h3>
+                <p className="mt-2 text-sm text-mist">En USDT con Binance Pay. Escríbenos por WhatsApp y te pasamos el ID para pagar; tu licencia se activa al confirmar.</p>
+              </div>
+              <div>
+                <h3 className="font-[family-name:var(--font-display)] text-lg font-semibold text-white">Sube de bloque cuando quieras</h3>
+                <p className="mt-2 text-sm text-mist">Pagas solo la diferencia por los días que quedan. Más de 20 sesiones: precio a conversar.</p>
+              </div>
+              <div>
+                <h3 className="font-[family-name:var(--font-display)] text-lg font-semibold text-white">Prueba gratis 3 días</h3>
+                <p className="mt-2 text-sm text-mist">Una sesión para un personaje, antes de pagar.</p>
+                <TrialButton className="mt-4" />
+              </div>
+            </div>
+            <WhatsAppLink label="Contratar por WhatsApp" className="mt-8" />
+          </Reveal>
         </div>
       </section>
 
