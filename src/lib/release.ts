@@ -1,8 +1,11 @@
 /**
- * APKs live as GitHub Releases on a public, code-free repo. Asset names never change, so
- * `/releases/latest/download/<name>` always serves the newest build. Publishing a new
- * version (scripts/publish_apk_release.sh in the bot repo) updates the site without a deploy.
+ * APKs are served from the release Mac at downloads.muamaizingbot.com (cloudflared tunnel,
+ * cached by Cloudflare). `latest.json` there names the newest version and its versioned URLs;
+ * scripts/publish_apk_release.sh in the bot repo rewrites it, so the site updates without a
+ * deploy. GitHub Releases (uploads from Peru crawled at ~60 KB/s, 2026-11-19) stay as fallback
+ * and for the in-app updater of older builds.
  */
+export const DOWNLOADS_LATEST = "https://downloads.muamaizingbot.com/latest.json";
 export const RELEASES_REPO = "Antfel/muamaizingbot-releases";
 
 export const APK_ASSETS = {
@@ -12,8 +15,31 @@ export const APK_ASSETS = {
 
 export type ApkVariant = keyof typeof APK_ASSETS;
 
-export function latestAssetUrl(variant: ApkVariant): string {
+function githubAssetUrl(variant: ApkVariant): string {
   return `https://github.com/${RELEASES_REPO}/releases/latest/download/${APK_ASSETS[variant]}`;
+}
+
+type LocalLatest = {
+  version: string;
+  published_at: string;
+  assets: Record<ApkVariant, { url: string; size: number; sha256: string }>;
+};
+
+async function fetchLocalLatest(): Promise<LocalLatest | null> {
+  try {
+    const res = await fetch(DOWNLOADS_LATEST, { next: { revalidate: 60 } });
+    if (!res.ok) return null;
+    const data = (await res.json()) as LocalLatest;
+    return data?.version && data.assets?.arm64?.url && data.assets?.arm32?.url ? data : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Newest APK URL: the release Mac when it answers, else GitHub's latest release. */
+export async function latestAssetUrl(variant: ApkVariant): Promise<string> {
+  const local = await fetchLocalLatest();
+  return local?.assets[variant].url ?? githubAssetUrl(variant);
 }
 
 export type ReleaseInfo = {
@@ -28,8 +54,19 @@ type GithubRelease = {
   assets: { name: string; size: number }[];
 };
 
-/** Latest release metadata for the download card; null when GitHub is unreachable. */
+/** Latest release metadata for the download card; null when neither source answers. */
 export async function getLatestRelease(): Promise<ReleaseInfo | null> {
+  const local = await fetchLocalLatest();
+  if (local) {
+    return {
+      version: local.version,
+      publishedAt: local.published_at,
+      sizeMb: {
+        arm64: Math.round(local.assets.arm64.size / 1_000_000),
+        arm32: Math.round(local.assets.arm32.size / 1_000_000),
+      },
+    };
+  }
   try {
     const res = await fetch(`https://api.github.com/repos/${RELEASES_REPO}/releases/latest`, {
       headers: { Accept: "application/vnd.github+json" },
